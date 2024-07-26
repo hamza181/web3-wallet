@@ -166,6 +166,71 @@ async function getTokenTransferEvents(tokenAddress, walletAddress) {
   });
 }
 
+const importToken = async (wallet, tokenAddress) => {
+  try {
+    const erc20Abi = [
+      // Some common ERC-20 functions
+      'function name() view returns (string)',
+      'function symbol() view returns (string)',
+      'function decimals() view returns (uint8)',
+      'function totalSupply() view returns (uint256)',
+      'function balanceOf(address owner) view returns (uint256)',
+      'function transfer(address to, uint256 value) returns (bool)',
+
+      // Event
+      'event Transfer(address indexed from, address indexed to, uint256 value)',
+    ];
+
+    // Create a new contract instance
+    const tokenContract = new ethers.Contract(tokenAddress, erc20Abi, wallet);
+
+    // Fetch token details
+    const tokenName = await tokenContract.name();
+    const tokenSymbol = await tokenContract.symbol();
+    const tokenDecimals = await tokenContract.decimals();
+
+    // Log token details
+    console.log(`Token Name: ${tokenName}`);
+    console.log(`Token Symbol: ${tokenSymbol}`);
+    console.log(`Token Decimals: ${tokenDecimals}`);
+
+    // Save the token information to your wallet or state
+    // Example:
+    const tokenData = {
+      address: tokenAddress,
+      name: tokenName,
+      symbol: tokenSymbol,
+      decimals: tokenDecimals,
+    };
+    console.log('Token imported:', tokenData);
+  } catch (error) {
+    console.error('Error importing token:', error);
+  }
+};
+
+// const getTokenBalance = async (wallet, tokenAddress) => {
+//   try {
+//     const erc20Abi = [
+//       'function balanceOf(address owner) view returns (uint256)',
+//     ];
+
+//     // Create a new contract instance
+//     const tokenContract = new ethers.Contract(tokenAddress, erc20Abi, wallet);
+
+//     // Fetch the token balance
+//     const balance = await tokenContract.balanceOf(wallet.address);
+
+//     // Convert balance to a readable format considering token decimals
+//     const tokenDecimals = await tokenContract.decimals();
+//     const formattedBalance = ethers.utils.formatUnits(balance, tokenDecimals);
+
+//     return formattedBalance;
+//   } catch (error) {
+//     console.error('Error fetching token balance:', error);
+//     return null;
+//   }
+// };
+
 async function main() {
   // Create a new wallet
   // const newWallet = await createWallet();
@@ -180,7 +245,7 @@ async function main() {
   const importedWallet = await importWallet(mnemonic);
 
   // Show info of the imported wallet
-  // await showWalletInfo(importedWallet);
+  await showWalletInfo(importedWallet);
 
   // Example token address (replace with an actual token address on Sepolia)
   const tokenAddress = "0x4200000000000000000000000000000000000022"; // Replace with an actual token contract address
@@ -198,6 +263,12 @@ async function main() {
 
   // Get the ERC20 token transfer events for the wallet
   await getTokenTransferEventsApi(tokenAddress, importedWallet.address);
+
+  // Import Token 
+  await importToken(importedWallet, tokenAddress)
+
+  // Get token balance
+  await getTokenBalance(importedWallet, tokenAddress)
 }
 
 main().catch(console.error);
