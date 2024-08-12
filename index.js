@@ -37,6 +37,11 @@ async function importWallet(mnemonic) {
   return wallet;
 }
 
+// check mnemonic validity
+function isValidMnemonic(mnemonic) {
+  return ethers.Mnemonic.isValidMnemonic(mnemonic);
+}
+
 // Function to show wallet info including balance
 async function showWalletInfo(wallet) {
   const balance = await provider.getBalance(wallet.address);
@@ -242,6 +247,10 @@ async function main() {
   // const importedWallet = await importWallet(newWallet.mnemonic.phrase);
   const mnemonic =
     "swing void stable wrong strong pave fringe wonder appear jacket popular bacon";
+
+  // check mnemonic validity
+  console.log('is Mnemonic valid ?', isValidMnemonic(mnemonic))
+
   const importedWallet = await importWallet(mnemonic);
 
   // Show info of the imported wallet
@@ -262,13 +271,13 @@ async function main() {
   // await getTransactionHistory(importedWallet.address);
 
   // Get the ERC20 token transfer events for the wallet
-  await getTokenTransferEventsApi(tokenAddress, importedWallet.address);
+  // await getTokenTransferEventsApi(tokenAddress, importedWallet.address);
 
   // Import Token 
-  await importToken(importedWallet, tokenAddress)
+  // await importToken(importedWallet, tokenAddress)
 
   // Get token balance
-  await getTokenBalance(importedWallet, tokenAddress)
+  // await getTokenBalance(importedWallet, tokenAddress)
 }
 
 main().catch(console.error);
