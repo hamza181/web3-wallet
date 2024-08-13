@@ -250,11 +250,12 @@ async function main() {
   // const importedWallet = await importWallet(newWallet.mnemonic.phrase);
   const mnemonic =
     "swing void stable wrong strong pave fringe wonder appear jacket popular bacon";
+  const mnemonic1 = "rifle spray lottery host cement junk ball machine note mixture minor must"
 
   // check mnemonic validity
   // console.log('is Mnemonic valid ?', isValidMnemonic(mnemonic))
 
-  // const importedWallet = await importWallet(mnemonic);
+  // const importedWallet = await importWallet(mnemonic1);
 
   // Show info of the imported wallet
   // await showWalletInfo(importedWallet);
