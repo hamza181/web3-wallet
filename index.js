@@ -4,10 +4,13 @@ const axios = require("axios");
 
 // Sepolia testnet URL
 const sepoliaProviderUrl = "https://sepolia.blast.io/"; // Replace <your-blast-api-key> with your actual Blast API key
+const localProviderUrl = "http://127.0.0.1:7545"
+
+const networkProvider = localProviderUrl
 
 // Connect to the Sepolia testnet
-const provider = new ethers.JsonRpcProvider(sepoliaProviderUrl);
-// const provider = new ethers.getDefaultProvider(sepoliaProviderUrl);
+const provider = new ethers.JsonRpcProvider(networkProvider);
+// const provider = new ethers.getDefaultProvider(networkProvider);
 
 // ERC-20 Token ABI
 const erc20Abi = [
@@ -249,12 +252,12 @@ async function main() {
     "swing void stable wrong strong pave fringe wonder appear jacket popular bacon";
 
   // check mnemonic validity
-  console.log('is Mnemonic valid ?', isValidMnemonic(mnemonic))
+  // console.log('is Mnemonic valid ?', isValidMnemonic(mnemonic))
 
-  const importedWallet = await importWallet(mnemonic);
+  // const importedWallet = await importWallet(mnemonic);
 
   // Show info of the imported wallet
-  await showWalletInfo(importedWallet);
+  // await showWalletInfo(importedWallet);
 
   // Example token address (replace with an actual token address on Sepolia)
   const tokenAddress = "0x4200000000000000000000000000000000000022"; // Replace with an actual token contract address
